@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
  * class, it will run all of your tests.  Just be sure to add all your test files to the list!
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({LexiconALTest.class, LexiconTrieTest.class})
+@Suite.SuiteClasses({LexiconALTest.class, LexiconTrieTest.class, LexiconHashTest.class})
 public class TestSuite {
     //nothing
 }

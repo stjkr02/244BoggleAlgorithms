@@ -13,9 +13,10 @@ import java.util.Iterator;
  *
  * @author stjkr02
  */
-public class LexiconAL {
+public class LexiconHash {
 
-    private ArrayList<String> lex = new ArrayList<>(172823);
+    private HashSet<String> words = new HashSet<>(172823);
+    private HashSet<String>[] prefixes = new HashSet[29];
 
     /**
      * Create a word list from the specified file
@@ -24,10 +25,15 @@ public class LexiconAL {
      * @throws java.io.FileNotFoundException if the file cannot be found
      * @throws java.io.IOException           if an IO Error occurs while reading
      */
-    public LexiconAL(String filename) throws IOException {
+    public LexiconHash(String filename) throws IOException {
+        // initialize the HashSets within the array
+        for (int i = 0; i < 29; i++) {
+            prefixes[i] = new HashSet<String>();
+        }
+
+        // Read in the file
         try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
             String line;
-            int row = 0;
 
             while ((line = in.readLine()) != null) {
                 // Trim the white space
@@ -37,15 +43,18 @@ public class LexiconAL {
                 if (line.length() == 0)
                     continue;
 
-                lex.add(row, line);
+                // Add the word to the hash set of words
+                words.add(line);
 
-                // Increment the row number
-                row++;
+                // Add the word as prefixes
+                int length = line.length();
+
+                for (int i = 1; i < length; i++) {
+                    prefixes[i].add(line.substring(0,i));
+                }
+
             }
         }
-
-        Collections.sort(this.lex);
-
     }
 
 
@@ -56,15 +65,7 @@ public class LexiconAL {
      * @return true if the prefix occurs in the lexicon, false otherwise
      */
     public boolean isPrefix(String prefix) {
-        int p = Collections.binarySearch(this.lex, prefix);
-        String next = "";
-        if (p >= 0) {
-            next = lex.get(p + 1);
-        } else {
-            p = -(p + 1);
-            next = lex.get(p);
-        }
-        return next.startsWith(prefix);
+        return prefixes[prefix.length()].contains(prefix);
     }
 
     /**
@@ -74,6 +75,6 @@ public class LexiconAL {
      * @return true if the word occur, false otherwise
      */
     public boolean isWord(String word) {
-        return Collections.binarySearch(this.lex, word) >= 0;
+        return words.contains(word);
     }
 }

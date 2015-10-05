@@ -13,11 +13,11 @@ public class Main {
 
         try {
             Stopwatch s0 = new Stopwatch();
-            lexTrie = new LexiconTrie("tests/files/words.txt");
+            lexTrie = new LexiconTrie("files/boggleWords.txt");
             t0 = s0.elapsedTime();
 
             Stopwatch s1 = new Stopwatch();
-            lexAL = new LexiconAL("tests/files/words.txt");
+            lexAL = new LexiconAL("files/boggleWords.txt");
             t1 = s1.elapsedTime();
         } catch (IOException e) {
             System.out.println("The files were not read in properly.");
@@ -27,9 +27,10 @@ public class Main {
         System.out.println("The ArrayList-based lexicon took " + t1 + "ms to initialize.");
 
         ArrayList<String> words = new ArrayList<>(109582);
-        try (BufferedReader in = new BufferedReader(new FileReader("tests/files/words.txt"))) {
+        try (BufferedReader in = new BufferedReader(new FileReader("files/boggleWords.txt"))) {
             String line;
             int row = 0;
+            int highestLength = 0;
 
             while ((line = in.readLine()) != null) {
                 // Trim the white space
@@ -41,9 +42,14 @@ public class Main {
 
                 words.add(row, line);
 
+                if(line.length() > highestLength)
+                    highestLength = line.length();
+
                 // Increment the row number
                 row++;
             }
+
+            System.out.println("Highest Length: " + highestLength);
         } catch (IOException e) {
             System.out.println("The files were not read in properly.");
         }
@@ -53,28 +59,28 @@ public class Main {
 
         Stopwatch s2 = new Stopwatch();
 
-        for (int i = 0; i < 150; i++) {
+        for (int i = 0; i < 500; i++) {
             for (String s : words)
                 lexTrie.isWord(s);
         }
 
         double t2 = s2.elapsedTime();
 
-        System.out.println("It took " + t2 + "ms to search for ~16 million words with a trie Lexicon.");
+        System.out.println("It took " + t2 + "ms to search for ~86 million words using a trie lexicon.");
 
         // Time to time how long it takes to check ~16mil words via the trie
 
         Stopwatch s3 = new Stopwatch();
 
+        for (int i = 0; i < 500; i++) {
             for (String s : words) {
                 lexAL.isWord(s);
             }
-            //System.out.println("Loop iteration: " + i + " time: " + s3.elapsedTime() + "ms");
-
+        }
 
         double t3 = s3.elapsedTime();
 
-        System.out.println("It will take " + ((t3 * 150)/1000) + "s to search for ~16 million words using an ArrayList lexicon.");
+        System.out.println("It took " + t3 + "ms to search for ~86 million words using an ArrayList lexicon.");
 
     }
 
