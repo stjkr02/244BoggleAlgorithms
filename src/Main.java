@@ -5,6 +5,28 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
+        long numWords = 200L;
+        int numTrials = 10;
+        ArrayList<String> words = RandomStringGenerator.generateArray(numWords);
+        System.out.println("Word list initialized... Beginning trials now:");
+        double[] times = Trials.all(numTrials, words);
+
+        String[] n = {"Trie", "Hash", "ArrayList"};
+        for(int i = 0; i < 3; i++)
+            System.out.printf("It took, on average, %f ms to look up %d words using a %s-backed lexicon after %d trials.\n",
+                    times[i], numWords, n[i], numTrials);
+
+        System.out.println("Saving the random word list to file \"lol.txt\" now...");
+        RandomStringGenerator.outputToFile(words, "lol.txt");
+    }
+
+
+
+
+
+
+
+    /*public static void main(String[] args) {
         // Read in the lexicons and time how long each one takes to initialize
         double t0 = 0.0;
         double t1 = 0.0;
@@ -26,7 +48,7 @@ public class Main {
         System.out.println("The Trie-based lexicon took " + t0 + "ms to initialize.");
         System.out.println("The HashSet-based lexicon took " + t1 + "ms to initialize.");
 
-        /* ArrayList<String> words = new ArrayList<>(109582);
+        *//* ArrayList<String> words = new ArrayList<>(109582);
         try (BufferedReader in = new BufferedReader(new FileReader("files/boggleWords.txt"))) {
             String line;
             int row = 0;
@@ -52,9 +74,10 @@ public class Main {
             System.out.println("Highest Length: " + highestLength);
         } catch (IOException e) {
             System.out.println("The files were not read in properly.");
-        } */
+        } *//*
 
         ArrayList<String> words = RandomStringGenerator.generateArray(130000L, 3);
+        //RandomStringGenerator.outputToFile(words, "test.dat");
 
 
         // Time to time how long it takes to check ~86 words via the trie
@@ -84,6 +107,6 @@ public class Main {
 
         System.out.println("It took " + t3 + "ms to search for ~86 million words using a HashSet lexicon.");
 
-    }
+    }*/
 
 }

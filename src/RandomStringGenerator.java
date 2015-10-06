@@ -1,10 +1,11 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class RandomStringGenerator {
     private static Random r = new Random();
 
-    public static ArrayList generateArray(long numStrings){
+    public static ArrayList generateArray(long numStrings) {
         ArrayList<String> al = new ArrayList<>();
 
         for (long i = 0; i < numStrings; i++) {
@@ -22,7 +23,7 @@ public class RandomStringGenerator {
         return al;
     }
 
-    public static ArrayList generateArray(long numStrings, int prefixLength){
+    public static ArrayList generateArray(long numStrings, int prefixLength) {
         ArrayList<String> al = new ArrayList<>();
 
         for (long i = 0; i < numStrings; i++) {
@@ -37,5 +38,17 @@ public class RandomStringGenerator {
         }
 
         return al;
+    }
+
+    public static void outputToFile(ArrayList<String> source, String destinationFileName)
+             {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(destinationFileName)))) {
+            //long len = source.size();
+            for (String s : source)
+                writer.write(s + "\n");
+        } catch (IOException e) {
+            System.out.println("ArrayList: " + source.toString() + " failed to output to file.");
+        }
     }
 }

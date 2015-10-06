@@ -1,5 +1,9 @@
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -22,6 +26,29 @@ public class RandomStringGeneratorTest {
     public void test15mil() {
         ArrayList al = RandomStringGenerator.generateArray(15000L);
         assertEquals(15000L, al.size());
+    }
+
+    @Test
+    public void testOutput() throws Exception {
+        String filename = "testOutput.dat";
+
+        try {
+            RandomStringGenerator.outputToFile(RandomStringGenerator.generateArray(1000L), filename);
+
+            ArrayList<String> al = new ArrayList<>();
+            try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
+                String line;
+                while ((line = in.readLine()) != null) {
+                    al.add(line);
+                }
+            }
+
+            assertEquals(1000, al.size());
+
+        } finally {
+            Files.delete(FileSystems.getDefault().getPath(filename));
+        }
+
     }
 
     /* @Test
