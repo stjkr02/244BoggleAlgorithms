@@ -14,8 +14,14 @@ public class RandomStringGeneratorTest {
 
     @Test
     public void test1(){
-        ArrayList al = RandomStringGenerator.generateArray(1);
-        assertEquals(1, al.size());
+        ArrayList al = RandomStringGenerator.generateArray(1L);
+        assertEquals(1L, al.size());
+    }
+
+    @Test
+    public void test15mil() {
+        ArrayList al = RandomStringGenerator.generateArray(15000L);
+        assertEquals(15000L, al.size());
     }
 
     /* @Test

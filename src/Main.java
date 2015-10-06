@@ -26,7 +26,7 @@ public class Main {
         System.out.println("The Trie-based lexicon took " + t0 + "ms to initialize.");
         System.out.println("The HashSet-based lexicon took " + t1 + "ms to initialize.");
 
-        ArrayList<String> words = new ArrayList<>(109582);
+        /* ArrayList<String> words = new ArrayList<>(109582);
         try (BufferedReader in = new BufferedReader(new FileReader("files/boggleWords.txt"))) {
             String line;
             int row = 0;
@@ -52,10 +52,12 @@ public class Main {
             System.out.println("Highest Length: " + highestLength);
         } catch (IOException e) {
             System.out.println("The files were not read in properly.");
-        }
+        } */
+
+        ArrayList<String> words = RandomStringGenerator.generateArray(130000L, 3);
 
 
-        // Time to time how long it takes to check ~16mil words via the trie
+        // Time to time how long it takes to check ~86 words via the trie
 
         Stopwatch s2 = new Stopwatch();
 
