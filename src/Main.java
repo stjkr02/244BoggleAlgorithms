@@ -9,7 +9,7 @@ public class Main {
         double t0 = 0.0;
         double t1 = 0.0;
         LexiconTrie lexTrie = null;
-        LexiconAL lexAL = null;
+        LexiconHash lexHash = null;
 
         try {
             Stopwatch s0 = new Stopwatch();
@@ -17,14 +17,14 @@ public class Main {
             t0 = s0.elapsedTime();
 
             Stopwatch s1 = new Stopwatch();
-            lexAL = new LexiconAL("files/boggleWords.txt");
+            lexHash = new LexiconHash("files/boggleWords.txt");
             t1 = s1.elapsedTime();
         } catch (IOException e) {
             System.out.println("The files were not read in properly.");
         }
 
-        System.out.println("The trie-based lexicon took " + t0 + "ms to initialize.");
-        System.out.println("The ArrayList-based lexicon took " + t1 + "ms to initialize.");
+        System.out.println("The Trie-based lexicon took " + t0 + "ms to initialize.");
+        System.out.println("The HashSet-based lexicon took " + t1 + "ms to initialize.");
 
         ArrayList<String> words = new ArrayList<>(109582);
         try (BufferedReader in = new BufferedReader(new FileReader("files/boggleWords.txt"))) {
@@ -74,13 +74,13 @@ public class Main {
 
         for (int i = 0; i < 500; i++) {
             for (String s : words) {
-                lexAL.isWord(s);
+                lexHash.isWord(s);
             }
         }
 
         double t3 = s3.elapsedTime();
 
-        System.out.println("It took " + t3 + "ms to search for ~86 million words using an ArrayList lexicon.");
+        System.out.println("It took " + t3 + "ms to search for ~86 million words using a HashSet lexicon.");
 
     }
 
